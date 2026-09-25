@@ -110,6 +110,11 @@ function render() {
   $('#topics-view').hidden = state.view !== 'topics';
   $('#my-records-view').hidden = state.view !== 'mine';
   $('#records-view').hidden = state.view !== 'records';
+  const myAgenda = state.agenda.length ? `<div class="agenda-list-title">SUGGESTED FOR THE NEXT MEETING</div>${state.agenda.map(item => {
+    const topic = topics.find(entry => entry.id === item.topic);
+    return `<div class="agenda-item"><span>↗</span><div>${escapeHtml(item.text)}<small>${topic ? escapeHtml(topic.name) : 'No specific topic yet'}</small></div></div>`;
+  }).join('')}` : '';
+  document.querySelectorAll('[data-my-agenda-list]').forEach(list => { list.innerHTML = myAgenda; });
   document.querySelectorAll('.side-link[data-view]').forEach(link => {
     const active = link.dataset.view === state.view;
     link.classList.toggle('active', active);
@@ -240,6 +245,10 @@ let dialogContext = null;
 function openDialog(context) {
   dialogContext = context;
   const isAgenda = context.mode === 'agenda-new' || context.mode === 'agenda';
+  $('#agenda-topic-field').hidden = !(context.mode === 'agenda-new' && context.fromMy);
+  if (context.mode === 'agenda-new' && context.fromMy) {
+    $('#agenda-topic').innerHTML = `<option value="">No specific topic yet</option>${topics.map(topic => `<option value="${topic.id}">${escapeHtml(topic.name)}</option>`).join('')}`;
+  }
   $('#dialog-kicker').textContent = isAgenda ? 'NEXT MEETING' : context.mode === 'flagged' ? 'CORRECT THE RECORD' : 'SHARE CONTEXT';
   $('#dialog-title').textContent = isAgenda ? 'Suggest a discussion' : context.mode === 'flagged' ? 'What should we correct?' : 'Add your context';
   $('#dialog-description').textContent = isAgenda ? 'We will keep this as a suggested agenda item for the next meeting.' : context.mode === 'flagged' ? 'Tell Clarity what was inaccurate. Your correction will be visible in this review.' : 'Add a detail that would help others understand this record.';
@@ -274,6 +283,7 @@ document.addEventListener('click', event => {
   if (target.dataset.completionEdit !== undefined) { state.showCompletedReview = true; render(); window.scrollTo({ top: 0, behavior: 'instant' }); updateStickyProgress(); return; }
   if (target.dataset.completionSummary !== undefined) { state.showCompletedReview = false; render(); window.scrollTo({ top: 0, behavior: 'instant' }); updateStickyProgress(); return; }
   if (target.dataset.myScope) { state.myScope = target.dataset.myScope; render(); return; }
+  if (target.dataset.newAgenda === 'mine') return openDialog({ mode: 'agenda-new', fromMy: true });
   if (target.dataset.topic) return setTopic(target.dataset.topic);
   if (target.dataset.expand) { state.expanded[target.dataset.expand] = true; render(); return; }
   if (target.dataset.collapse) { delete state.expanded[target.dataset.collapse]; render(); return; }
@@ -302,7 +312,7 @@ $('#feedback-form').addEventListener('submit', event => {
   event.preventDefault(); const text = $('#feedback-text').value.trim();
   if (!text) { $('#feedback-text').focus(); return; }
   $('#feedback-dialog').close();
-  if (dialogContext.mode === 'agenda-new') { state.agenda.push({ topic: dialogContext.topic, text }); toast('Discussion suggested for the next meeting.'); }
+  if (dialogContext.mode === 'agenda-new') { state.agenda.push({ topic: dialogContext.fromMy ? $('#agenda-topic').value || null : dialogContext.topic, text }); toast('Discussion suggested for the next meeting.'); }
   else saveResponse(dialogContext.id, { kind: dialogContext.mode === 'agenda' ? 'agenda' : dialogContext.mode, text }, dialogContext.mode === 'agenda' ? 'Added to the next meeting suggestions.' : 'Feedback saved for this review.');
   if (dialogContext.mode === 'agenda-new') render();
 });

@@ -117,6 +117,10 @@ button:focus-visible, a:focus-visible, select:focus-visible, textarea:focus-visi
 .view-summary-button { margin-top: 14px; border: 0; background: transparent; color: var(--ui-accent); padding: 0; font-size: 11px; font-weight: 700; }
 .my-records-group { margin-top: 33px; }
 .my-records-group:last-child { padding-bottom: 45px; }
+.my-records-view .my-records-group:last-child { padding-bottom: 0; }
+.my-agenda-prompt { margin-top: 28px; }
+.my-records-view .agenda-item > div { min-width: 0; }
+.my-records-view .agenda-item small { display: block; margin-top: 4px; color: var(--ui-soft); font-size: 9px; }
 .my-records-group-head { display: flex; align-items: end; justify-content: space-between; gap: 15px; margin-bottom: 15px; }
 .my-records-group-head p { color: var(--ui-muted); font-size: 11px; margin: 7px 0 0; }
 .my-records-group-head > span { color: var(--ui-soft); font-size: 10px; white-space: nowrap; }
@@ -305,6 +309,8 @@ button:focus-visible, a:focus-visible, select:focus-visible, textarea:focus-visi
 .icon-button { background: var(--ui-subtle); color: var(--ui-ink); }
 .feedback-dialog textarea { background: var(--ui-surface); border-color: var(--ui-line); color: var(--ui-ink); }
 .feedback-dialog textarea:focus { border-color: var(--ui-accent); }
+#agenda-topic-field { margin-bottom: 16px; }
+#agenda-topic { width: 100%; padding: 10px 11px; border: 1px solid var(--ui-line); border-radius: 4px; background: var(--ui-surface); color: var(--ui-ink); font-size: 11px; }
 .primary-button { background: var(--ui-accent); border-color: var(--ui-accent); }
 .secondary-button { background: var(--ui-surface); color: var(--ui-ink); border-color: var(--ui-line); }
 .toast { background: var(--ui-ink); color: var(--ui-surface); }
