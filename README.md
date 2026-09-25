@@ -1,0 +1,11 @@
+# Clarity meeting review prototype
+
+Open `index.html` in a browser. This dependency-free prototype uses sample content from a fictional product sync and follows the terms in `vocabulary.md`.
+
+The left navigation switches between Topics, My records, All records, and Ask Clarity. Topics retains the topic-first review. My records opens on **For me**: five items assigned to Alex plus five general meeting records. **Assigned to me** narrows the list to the five directly relevant items. My records progress always tracks the full ten-item For me group, even when the narrower scope is selected. All records shows all 13 items grouped by topic. Ask Clarity expands the chat beside the sidebar. Review responses and chat history stay in place while switching views.
+
+Within each topic, ambiguity and agent interpretations appear before decisions, actions, assumptions, concerns, questions, and discussions. Participants can confirm a record, correct it, add context, see the supporting transcript excerpt, or suggest a discussion for the next meeting. Reviewed records collapse to a title and status; click one to reopen it and revise the response. The large review panel remains in the introduction; a compact progress bar appears at the top after that section scrolls away. The Ask Clarity panel demonstrates a few scripted responses to meeting questions. Suggested questions start a chat and then disappear; the header theme control switches between light and dark and remembers the choice locally.
+
+When every record in a topic has a response, its card shows **Review complete** and the topic view displays a completion message. Once all ten For me records have a response, My records opens a dedicated completion page with a read-only overview of those responses and an option to revisit or change them. The other three meeting records do not block this personal completion. When all 13 meeting records have responses, Topics and All records also show a meeting completion message. A correction still counts as a completed participant review; it does not imply the record has been resolved or confirmed.
+
+All changes are local to the open page and reset on refresh. The prototype does not send messages, save curated artifacts, or call an AI service.
